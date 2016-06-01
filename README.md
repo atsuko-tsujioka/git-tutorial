@@ -1,6 +1,6 @@
 # git-tutorial
 
-# このサイトがシンプルで
+# このサイトがシンプルでわかりやすい。
 http://www.eiplab.com/2011/07/git-topic-branc/
 
 Git紹介用（使ってなさそうな便利機能）
