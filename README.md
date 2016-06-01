@@ -80,3 +80,7 @@ git fetch upstream
 git merge upstream/master
 
 ```
+
+
+#リリースタグの生成
+Githubの画面上からXX releases => Draft a new release => タグ名はチケット名を記載
