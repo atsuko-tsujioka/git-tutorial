@@ -377,8 +377,25 @@ private class SetReqOwnerCustomTest {
         // ログイン中のユーザの Id を取得する
         String uid = UserInfo.getUserId();
 
+		/*
+		Group gObj = new Group(
+			name = '上京・帰国ナース'
+			,Type='Queue'
+		);
+
+		insert gObj;
+		*/
+
 		//キューを取得する
+		//del_start_2016/02/22 ogino #9695
+        ////2014/8/1 daidouzi mod start #3206
+        ////List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and Name = '上京・帰国ナース'];
+        //List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'DeveloperName20130318'];
+		////2014/8/1 daidouzi mod end #3206
+        //del_end_2016/02/22 ogino #9695
+        //add_start_2016/02/22 ogino #9695
         List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'notSendEmailGroup'];
+        //add_end_2016/02/22 ogino #9695
 
         //重複を作成する
         CustomObject1__c c1_1 = new CustomObject1__c(
@@ -425,7 +442,10 @@ private class SetReqOwnerCustomTest {
 		createTestDateOrganizationSetting();
 
 		//キューを取得する
+		//2014/8/1 daidouzi mod start #3206
+		//
         List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'RJB_student'];
+		//2014/8/1 daidouzi mod end #3206
 
         //重複を作成する
         CustomObject1__c c1_1 = new CustomObject1__c(
@@ -461,6 +481,9 @@ private class SetReqOwnerCustomTest {
 		// カスタム設定登録
 		createTestDateOrganizationSetting();
 
+        //del_start_2016/02/22 ogino #9695
+        //List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'Group_sol'];
+        //del_end_2016/02/22 ogino #9695
         //add_start_2016/02/22 ogino #9695
         List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'notSendEmailGroup'];
         //add_end_2016/02/22 ogino #9695
@@ -573,7 +596,7 @@ private class SetReqOwnerCustomTest {
         User user02 = userMap.get('user02');
         User user03 = userMap.get('user03');
         User user04 = userMap.get('user04');
-        
+
         Test.startTest();
 
 
@@ -594,6 +617,7 @@ private class SetReqOwnerCustomTest {
         );
 
         insert jobSeeker01;
+            //insert new List<CustomObject1__c>{jobSeeker01, jobSeeker02, jobSeeker03};
 
         Test.stopTest();
 
@@ -602,6 +626,7 @@ private class SetReqOwnerCustomTest {
 
     }
 
+    //　distributesSite対応 2015/08/03 yoshinaga add
     static testMethod void myUnitTest4distributesSite() {
 
         CustomObject1__c jobSeeker01 = new CustomObject1__c(
@@ -624,6 +649,7 @@ private class SetReqOwnerCustomTest {
         Test.stopTest();
     }
 
+    //　setOwnerRunForPage対応 2015/08/03 yoshinaga add
     static testMethod void myUnitTest4setOwnerRunForPage() {
 
         CustomObject1__c jobSeeker01 = new CustomObject1__c(
@@ -667,9 +693,11 @@ private class SetReqOwnerCustomTest {
 	}
 
     private static void createTestDateOrganizationSetting(){
+        //add_start_2015/06/02 ogino #4915
         if(OrganizationSettings__c.getInstance() != null){
             return;
         }
+        //add_end_2015/06/02 ogino #4915
 		// カスタム設定登録
 		OrganizationSettings__c os = new OrganizationSettings__c(
 			JobSeekerSynchronizationDate__c = -3
@@ -897,6 +925,7 @@ private class SetReqOwnerCustomTest {
             System.debug(Logginglevel.WARN, '****** user id=' + u.Id);
         }
 
+
 test.startTest();
 
 test.stopTest();
@@ -919,7 +948,6 @@ test.stopTest();
         for (User u: usr) {
             System.debug(Logginglevel.WARN, '****** user id=' + u.Id);
         }
-
     }
 
 
@@ -947,15 +975,20 @@ test.stopTest();
         // 求職者を作成する （希望雇用形態による） Kyushokusha.OwnerId = Tantou.OwnerId__c;
         c1 = new CustomObject1__c(action__c='abc', job_id_type__c='一括応募', name='test1',Field5__c=date.newInstance(2009,8,11),Field2__c='1116',Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true,Field17__c='常勤', Field142__c='3か月以内');
         insert c1;
- 
+        c1 = [SELECT Id, Name, ownerId, entry_course_category__c, entry_course_detail__c, tmp_value_1__c, tmp_value_2__c, tmp_value_3__c, tmp_value_4__c, tmp_value_5__c FROM CustomObject1__c WHERE Id = :c1.Id];
+
         c1 = new CustomObject1__c(action__c='abc', job_id_type__c='それ以外', name='test1',Field5__c=date.newInstance(2009,8,11),Field2__c='1117',Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true,Field17__c='常勤', Field142__c='4か月以内');
         insert c1;
- 
+        c1 = [SELECT Id, Name, ownerId, entry_course_category__c, entry_course_detail__c, tmp_value_1__c, tmp_value_2__c, tmp_value_3__c, tmp_value_4__c, tmp_value_5__c FROM CustomObject1__c WHERE Id = :c1.Id];
+
         c1 = new CustomObject1__c(action__c='bbbb', job_id_type__c='一括応募', name='test1',Field5__c=date.newInstance(2009,8,11),Field2__c='1118',Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true,Field17__c='非常勤', Field142__c='3か月以内');
         insert c1;
+        c1 = [SELECT Id, Name, ownerId, entry_course_category__c, entry_course_detail__c, tmp_value_1__c, tmp_value_2__c, tmp_value_3__c, tmp_value_4__c, tmp_value_5__c FROM CustomObject1__c WHERE Id = :c1.Id];
 
         c1 = new CustomObject1__c(action__c='eee', job_id_type__c='会社登録', name='test1',Field5__c=date.newInstance(2009,8,11),Field2__c='1119',Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true,Field17__c='非常勤', Field142__c='11か月');
         insert c1;
+        c1 = [SELECT Id, Name, ownerId, entry_course_category__c, entry_course_detail__c, tmp_value_1__c, tmp_value_2__c, tmp_value_3__c, tmp_value_4__c, tmp_value_5__c FROM CustomObject1__c WHERE Id = :c1.Id];
+
     }
 
 
@@ -1002,7 +1035,6 @@ test.stopTest();
         groups.add( new Group( Name='kakikukeko'));
         groups.add( new Group( Name='sashisuseso'));
         insert groups;
-
     }
 
     // ---------------------------------------------
@@ -1022,11 +1054,9 @@ test.stopTest();
             System.debug(Logginglevel.WARN, 'user id=' + u.Id);
         }
 
-        //2013/09/13 daidouzi add start #1739
         CustomObject1__c cx2 = new CustomObject1__c(name='【テスト】test',Field5__c=date.newInstance(2009,8,11),Field2__c='9333',Field151__c=true,Field16__c='作業療法士',Field6__c='秋葉原県',Field21__c='横浜市南区',GGeoCodeNotHandle__c=true,Field17__c='非常勤', Field142__c='3か月以内');             // テスト用データ
         CustomObject1__c cx3 = new CustomObject1__c(name='test1',Field5__c=date.newInstance(2009,8,11),Field2__c='1112',Field151__c=true,Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true, Field142__c='3か月以内');                                           // ★希望雇用形態がない
         List<CustomObject1__c> cx = new CustomObject1__c[]{ cx2, cx3};
-        //2013/09/13 daidouzi add end #1739
 
         insert cx;
 
@@ -1071,11 +1101,6 @@ test.stopTest();
         expect.put(cB.Id, usr[11].Id);  // match2 のパターン  / 希望職種なし
         expect.put(cC.Id, usr[5].Id);   // match1 のパターン
 
-        // 2. 正解と実際の値を比較する
-//        cn = [select Id,OwnerId from CustomObject1__c where Id in :cn];
-//        for (CustomObject1__c c: cn) {
-//            system.assertEquals(expect.get(c.Id), c.OwnerId);
-//        }
     }
 
     // ---------------------------------------------
@@ -1090,10 +1115,11 @@ test.stopTest();
         String uid = UserInfo.getUserId();
 		//キューを取得する
         List<Group> queueList = [SELECT Id, Name FROM Group WHERE Type='Queue' and DeveloperName = 'notSendEmailGroup'];
+        //add_end_2016/02/22 ogino #9695
 
         //重複を作成する
         CustomObject1__c c1_1 = new CustomObject1__c(name='test1',Field5__c=date.today(),customer_id__c='1234567',Field2__c='1117',Field16__c='ケアマネジャー',Field6__c='秋葉原県',Field7__c='横浜市',GGeoCodeNotHandle__c=true,Field17__c='常勤', Field142__c='3か月以内'
-	        ,Action__c = 'sphp_worldavenue' 
+	        ,Action__c = 'sphp_worldavenue'  ////2015/3/2 daidouzi add #4634
         );
 
         insert c1_1;
@@ -1110,14 +1136,10 @@ test.stopTest();
 		cmap.put(c1_1_result.id, c1_1_result);
 
 		//所有者変更
+    	//setReqOwner.setOwner(clist, cmap) ;
     	SetReqOwnerCustom.setOwner(clist, cmap) ;
 
-
-        // 所有者が正しく設定されていることを確認する
-        //所有者がキューになっていることを確認
-        //System.assertEquals(clist[0].Ownerid, queueList[0].id,clist[0].Ownerid);
     }
-//add_start_2016/03/25 ogino #10632
     public static testMethod void testSetOwner021() {
         List<CustomObject1__c> newJobSeekerList = new List<Customobject1__c>();
         Map<Id,CustomObject1__c> oldJobSeekerMap = new Map<Id,CustomObject1__c>();
@@ -1132,36 +1154,30 @@ test.stopTest();
 
         SetReqOwnerCustom.setOwnerWithin60day(newJobSeekerList,oldJobSeekerMap);
     }
-//add_end_2016/03/25 ogino #10632
 
     private static void createTestDateOrganizationSetting00(){
         
-        //add_start_2015/06/02 ogino #4915
         if(OrganizationSettings__c.getInstance() != null){
             return;
         }
-        //add_end_2015/06/02 ogino #4915
 
 		// カスタム設定登録
 		OrganizationSettings__c os = new OrganizationSettings__c(
 			JobSeekerSynchronizationDate__c = -3
 			,CandidateCulcInsertFlag__c = true
-			//,NewAllocationLogic__c = true
-			//,NewAllocationLogicCustom__c = true
 		);
 
 		insert os;
     }
 
-//add_start_2016/04/26 ogino MATCHING_PROMOTION_SYSTEM-2565
+
     private static testMethod void testCreateAlertMail(){
           EmailTemplate emailTemplate = createEmailTemplate ();
           test.startTest();
           SetReqOwnerCustom.createAlertMail(emailTemplate, new CustomObject1__c(), new User());
           test.stopTest();
     }
-//add_end_2016/04/26 ogino MATCHING_PROMOTION_SYSTEM-2565
-//add_start_2016/04/26 ogino MATCHING_PROMOTION_SYSTEM-2565
+
     private static EmailTemplate createEmailTemplate () {
         
         List <Folder> folderList = [SELECT Id FROM Folder Where DeveloperName = 'SearchSystemFolder'];
@@ -1184,5 +1200,4 @@ test.stopTest();
         }
         return record;
     }
-//add_end_2016/04/26 ogino MATCHING_PROMOTION_SYSTEM-2565
 }
