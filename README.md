@@ -81,6 +81,38 @@ git merge upstream/master
 
 ```
 
+## remoteの最新ソースをlocalにとってくる
+
+```
+git pull
+```
+
+## conflictした場合の対応
+
+```
+git merge master
+
+Conflict
+
+#localを正とする場合
+git checkout --ours hello.txt
+
+#remoteを正とする場合
+git checkout --theirs hello.txt
+
+##半々の場合、各ツールを使用するか、>>>> <<<<目印を頼りに正のデータに手修正
+
+git add hello.txt
+
+git commit hello.txt
+```
+
+## merge前に戻す
+
+```
+git reset --hard HEAD
+```
+
 
 #リリースタグの生成
 Githubの画面上からXX releases => Draft a new release => タグ名はチケット名を記載
