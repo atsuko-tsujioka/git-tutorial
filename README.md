@@ -3,6 +3,13 @@
 # このサイトがシンプルでわかりやすい。
 http://www.eiplab.com/2011/07/git-topic-branc/
 
+#　コンフリクトしたら焦らずこれをみましょう
+http://qiita.com/nfnoface/items/8823bfb8f50c4c90412d
+
+# 最初はこれも良いかも
+http://techacademy.jp/magazine/6235
+
+
 Git紹介用（使ってなさそうな便利機能）
 
 ## GitをFork(画面上)
