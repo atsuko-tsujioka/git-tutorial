@@ -3,7 +3,7 @@
 # このサイトがシンプルでわかりやすい。
 http://www.eiplab.com/2011/07/git-topic-branc/
 
-#　コンフリクトしたら焦らずこれをみましょう
+#コンフリクトしたら焦らずこれをみましょう
 http://qiita.com/nfnoface/items/8823bfb8f50c4c90412d
 
 # 最初はこれも良いかも
